@@ -1,5 +1,5 @@
 ﻿using Autodesk.AutoCAD.Interop;
-
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -86,7 +86,10 @@ namespace EcdLogin
                 //}
 
                 //10.96.254.24
-                string response = HttpGet("http://10.96.254.24:8777//");//获取服务器上json地址
+
+                CheckFileExist();
+
+                string response = HttpGet("http://127.0.0.1:8777//");//获取服务器上json地址
 
  
 
@@ -172,5 +175,105 @@ namespace EcdLogin
                 }
             }
         }
+
+        private void Btn_Download_Click(object sender, EventArgs e)
+        {
+
+
+            string downfile = HttpGet("http://127.0.0.1:8877//");//获取服务器上json地址
+            JObject json = (JObject)JsonConvert.DeserializeObject(downfile);
+            JArray jArrayname = (JArray)json["name"];//文件名数组
+            JArray jArraydata = (JArray)json["data"];//文件流数组
+           
+            string filepath = @"C:\Program Files\Autodesk\AutoCAD 2018";//获取CAD 安装目录
+            IList<object> allDrives = json["data"].Select(t => (object)t).ToList();
+
+            for (int i = 0; i < jArrayname.Count(); i++)
+            {
+                if (File.Exists(filepath + @"\" + jArrayname[i].ToString()))
+                {
+                    return;
+                }
+
+                else
+                {
+
+
+                    for (int a = 0; a < jArraydata.Count(); a++)
+                    {
+
+
+                        JArray array = (JArray)jArraydata[a]["data"];
+                        byte[] values = new byte[jArraydata[a]["data"].Count()];
+                        for (int j = 0; j < array.Count(); j++)
+                        {
+
+                            values[j] = (byte)array[j];
+                        }
+                      
+                        // string filepath = @"D:\Work";
+                        File.WriteAllBytes(filepath + @"\" + jArrayname[i].ToString(), values);
+
+                        values = null;
+
+
+
+                    }
+
+                }
+            }
+
+           
+
+
+        }
+
+
+        /// <summary>
+        /// 判断CAD安装目录是否有需要加载的DLL
+        /// </summary>
+        private void CheckFileExist()
+        {
+            string downfile = HttpGet("http://127.0.0.1:8877//");//获取服务器上json地址
+            JObject json = (JObject)JsonConvert.DeserializeObject(downfile);
+            JArray jArrayname = (JArray)json["name"];//文件名数组
+            JArray jArraydata = (JArray)json["data"];//文件流数组
+
+            string filepath = @"C:\Program Files\Autodesk\AutoCAD 2018";//获取CAD 安装目录
+            IList<object> allDrives = json["data"].Select(t => (object)t).ToList();
+
+            for (int i = 0; i < jArrayname.Count(); i++)
+            {
+                if (File.Exists(filepath + @"\" + jArrayname[i].ToString()))
+                {
+                    return;
+                }
+                else
+                {
+                    for (int a = 0; a < jArraydata.Count(); a++)
+                    {
+                        JArray array = (JArray)jArraydata[a]["data"];
+                        byte[] values = new byte[jArraydata[a]["data"].Count()];
+                        for (int j = 0; j < array.Count(); j++)
+                        {
+
+                            values[j] = (byte)array[j];
+                        }
+
+                        // string filepath = @"D:\Work";
+                        File.WriteAllBytes(filepath + @"\" + jArrayname[i].ToString(), values);
+
+                        values = null;
+
+
+
+                    }
+
+                }
+            }
+
+        }
+
+
     }
 }

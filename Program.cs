@@ -9,6 +9,9 @@ namespace EcdLogin
 {
     public class Program
     {
+
+
+
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -27,6 +30,6 @@ namespace EcdLogin
             Application.ShowModelessDialog(lgnForm);//显示无模式对话框
 
 
+            }
         }
-    }
 }

@@ -36,6 +36,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label3 = new System.Windows.Forms.Label();
+            this.Btn_Download = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtPwd
@@ -96,12 +97,23 @@
             this.label3.TabIndex = 17;
             this.label3.Text = "注：用户名密码均为电脑用户名和密码！";
             // 
+            // Btn_Download
+            // 
+            this.Btn_Download.Location = new System.Drawing.Point(25, 240);
+            this.Btn_Download.Name = "Btn_Download";
+            this.Btn_Download.Size = new System.Drawing.Size(75, 23);
+            this.Btn_Download.TabIndex = 18;
+            this.Btn_Download.Text = "下载测试";
+            this.Btn_Download.UseVisualStyleBackColor = true;
+            this.Btn_Download.Click += new System.EventHandler(this.Btn_Download_Click);
+            // 
             // Form1
             // 
             this.AcceptButton = this.btn_Lgn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(300, 347);
+            this.Controls.Add(this.Btn_Download);
             this.Controls.Add(this.txtPwd);
             this.Controls.Add(this.txtUserName);
             this.Controls.Add(this.btn_Lgn);
@@ -125,6 +137,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button Btn_Download;
     }
 }
 
